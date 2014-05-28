@@ -66,12 +66,11 @@ def main():
     if not args.url:
         parser.error('URL required.\n\n See --help.')
 
-    url = format_url(args.url)
-
     # Print the banner
     banner()
 
-    # Check that the url is reachable
+    # Format the url and ensure it is reachable
+    url = format_url(args.url)
     site_available(url)
     print 'URL: ' + url + '\n'
 
