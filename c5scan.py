@@ -42,15 +42,21 @@ def returns_404(url):
         return False
     r.close
 
+def get_robots(url):
+    r = requests.get(url + '/robots.txt', verify=False)
+    if r.status_code == 200:
+        print "[+] robots.txt found:\n ", r.content
+
 def check_updates(url, versions, return_codes):
-    print "Enumerating concrete5 updates"
+    print "Enumerating updates"
     for v in versions:
         r = requests.get(url + '/updates/concrete' + v, verify=False)
         if r.status_code == 200:
             if return_codes:
-                print "Update version %s exist" % v
+                print "[+] Update version %s exists" % v
             else:
-                print "check http content"
+                if not 'Not Found' in r.content:
+                    print "[+] Update version %s exists" % v
 
 def main():
     parser = argparse.ArgumentParser(description='A c5 scanner')
@@ -66,6 +72,10 @@ def main():
 
     # Check that the url is reachable
     site_available(url)
+
+    print 'URL: ' + url + '\n'
+
+    get_robots(url)
 
     # Older versions didn't return status codes correctly
     if returns_404:
