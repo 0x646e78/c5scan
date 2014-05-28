@@ -6,7 +6,9 @@ Vulnerability scanner and information gatherer for the Concrete5 CMS
 Use
 ---
 
+```
 python c5scan.py -u <url>
+```
 
 Example
 -------
