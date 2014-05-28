@@ -3,6 +3,7 @@
 from contextlib import closing
 import requests # requires > = 1.2
 import argparse
+import re
 import sys
 
 oldversions = ['5.4.2.1']
@@ -16,15 +17,26 @@ def banner():
     banner+="******************************************************************\n" 
     print banner 
 
+def redtext(text):
+    print '\033[91m' + text + '\033[0m'
+
+def format_url(url):
+    if not re.search('^http', url):
+        print "No http:// or https:// provided. Assuming http://"
+        url = 'http://' + url
+    if not re.search('/$', url):
+        url += '/'
+    return url
+
 def site_available(url):
     try:
-        closing(requests.get(url, stream=True))
+        closing(requests.get(url, stream=True, verify=False))
     except Exception as e:
-        print "%s is not reachable" % url
+        redtext("%s is not reachable" % url)
         exit(1)
 
 def returns_404(url):
-    r = requests.get(url + '404check', stream=True)
+    r = requests.get(url + '404check', stream=True, verify=False)
     if r.status_code == 404:
         r.close
         return False
@@ -33,7 +45,7 @@ def returns_404(url):
 def check_updates(url, versions, return_codes):
     print "Enumerating concrete5 updates"
     for v in versions:
-        r = requests.get(url + '/updates/concrete' + v)
+        r = requests.get(url + '/updates/concrete' + v, verify=False)
         if r.status_code == 200:
             if return_codes:
                 print "Update version %s exist" % v
@@ -48,7 +60,7 @@ def main():
     if not args.url:
         parser.error('URL required.\n\n See --help.')
 
-    url = args.url
+    url = format_url(args.url)
 
     banner()
 
