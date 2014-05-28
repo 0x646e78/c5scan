@@ -68,18 +68,19 @@ def main():
 
     url = format_url(args.url)
 
+    # Print the banner
     banner()
 
     # Check that the url is reachable
     site_available(url)
-
     print 'URL: ' + url + '\n'
 
-    get_robots(url)
-
-    # Older versions didn't return status codes correctly
+    # Some versions didn't return status codes correctly
     if returns_404:
         return_codes = True
+
+    # Check for robots.txt
+    get_robots(url)
 
     # Enumerate update versions
     check_updates(url, versions, return_codes)
