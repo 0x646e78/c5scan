@@ -15,35 +15,35 @@ Example
 
 ```
 $ python c5scan.py -u localhost
-
-******************************************************************
-*                          ~ C5scan ~                            *
-* A vulnerability and information gatherer for the concrete5 cms *
-*                    auraltension@riseup.net                     *
-******************************************************************
+**********************************************************
+*                      ~ C5scan ~                        *
+* A vulnerability and information gatherer for concrete5 *
+*                auraltension@riseup.net                 *
+**********************************************************
 
 No http:// or https:// provided. Assuming http://
 URL: http://localhost/
 
-
+[+] Discovered version concrete5 - 5.6.3.1 from meta 'generator' tag
+[+] Interesting header: server: Apache
 [+] robots.txt found:
   User-agent: *
-Disallow: /blocks
-Disallow: /concrete
-Disallow: /config
-Disallow: /controllers
-Disallow: /css
-Disallow: /elements
-Disallow: /helpers
-Disallow: /jobs
-Disallow: /js
-Disallow: /languages
-Disallow: /libraries
-Disallow: /mail
-Disallow: /models
-Disallow: /packages
-Disallow: /single_pages
-Disallow: /themes
+Disallow: /blocks 
+Disallow: /concrete 
+Disallow: /config 
+Disallow: /controllers 
+Disallow: /css 
+Disallow: /elements 
+Disallow: /helpers 
+Disallow: /jobs 
+Disallow: /js 
+Disallow: /languages 
+Disallow: /libraries 
+Disallow: /mail 
+Disallow: /models 
+Disallow: /packages 
+Disallow: /single_pages 
+Disallow: /themes 
 Disallow: /tools
 Disallow: /updates
 Disallow: /login

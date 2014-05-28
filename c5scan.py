@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 from contextlib import closing
+from lxml import html
 import requests # requires > = 1.2
 import argparse
 import re
@@ -10,11 +11,11 @@ oldversions = ['5.4.2.1']
 versions = ['5.5.0', '5.5.1', '5.5.2', '5.5.2.1', '5.6.0', '5.6.0.1', '5.6.0.2', '5.6.1', '5.6.1.1', '5.6.1.2_updater', '5.6.2_updater', '5.6.2.1_updater', '5.6.3_updater', '5.6.3.1_updater']
 
 def banner():
-    banner="\n******************************************************************\n" 
-    banner+="*                          ~ C5scan ~                            *\n"
-    banner+="* A vulnerability and information gatherer for the concrete5 cms *\n"
-    banner+="*                    auraltension@riseup.net                     *\n"
-    banner+="******************************************************************\n" 
+    banner="\n**********************************************************\n" 
+    banner+="*                      ~ C5scan ~                        *\n"
+    banner+="* A vulnerability and information gatherer for concrete5 *\n"
+    banner+="*                auraltension@riseup.net                 *\n"
+    banner+="**********************************************************\n" 
     print banner 
 
 def redtext(text):
@@ -31,6 +32,10 @@ def format_url(url):
 def site_available(url):
     try:
         closing(requests.get(url, stream=True, verify=False))
+        r = requests.get(url + 'concrete/', verify=False)
+        if r.status_code == 404:
+            redtext('The site is up but does not appear to be running concrete5')
+            exit(1)
     except Exception as e:
         redtext("%s is not reachable" % url)
         exit(1)
@@ -39,13 +44,34 @@ def returns_404(url):
     r = requests.get(url + '404check', stream=True, verify=False)
     if r.status_code == 404:
         r.close
+        return True
+    else:
+        r.close
         return False
-    r.close
 
-def get_robots(url):
+def check_headers(url):
+    r = requests.get(url, verify=False)
+    for i in ['server', 'x-powered-by']:
+        try:
+            print '[+] Interesting header: %s: %s' % (i, r.headers[i])
+        except KeyError:
+            pass
+
+
+def get_robots(url, return_codes):
     r = requests.get(url + '/robots.txt', verify=False)
     if r.status_code == 200:
-        print "[+] robots.txt found:\n ", r.content
+        if return_codes:
+            print "[+] robots.txt found:\n ", r.content
+
+def get_version(url):
+    try:
+        r = requests.get(url, verify=False)
+        tree = html.fromstring(r.text)
+        version = tree.cssselect('meta[name="generator"]')[0].get('content')
+        return version
+    except:
+        return False
 
 def check_updates(url, versions, return_codes):
     print "Enumerating updates"
@@ -54,9 +80,8 @@ def check_updates(url, versions, return_codes):
         if r.status_code == 200:
             if return_codes:
                 print "[+] Update version %s exists" % v
-            else:
-                if not 'Not Found' in r.content:
-                    print "[+] Update version %s exists" % v
+            elif r.content == '':
+                print "[+] Update version %s exists" % v
 
 def main():
     parser = argparse.ArgumentParser(description='A c5 scanner')
@@ -71,15 +96,23 @@ def main():
 
     # Format the url and ensure it is reachable
     url = format_url(args.url)
-    site_available(url)
     print 'URL: ' + url + '\n'
+    site_available(url)
 
     # Some versions didn't return status codes correctly
-    if returns_404:
-        return_codes = True
+    return_codes = returns_404(url)
+    if not return_codes:
+        print "[+] Site is not correctly handling HTTP return codes\n"
+
+    # Get version from meta tags
+    version = get_version(url)
+    if version and re.search('\d', version):
+        print "[+] Discovered version %s from meta 'generator' tag" % version
+
+    check_headers(url)
 
     # Check for robots.txt
-    get_robots(url)
+    get_robots(url, return_codes)
 
     # Enumerate update versions
     check_updates(url, versions, return_codes)
