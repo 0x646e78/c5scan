@@ -7,15 +7,25 @@ import argparse
 import re
 import sys
 
-oldversions = ['5.4.2.1']
-versions = ['5.5.0', '5.5.1', '5.5.2', '5.5.2.1', '5.6.0', '5.6.0.1', '5.6.0.2', '5.6.1', '5.6.1.1', '5.6.1.2_updater', '5.6.2_updater', '5.6.2.1_updater', '5.6.3_updater', '5.6.3.1_updater']
+oldversions = [
+    '5.0.0', '5.1.1', '5.2.1', '5.3.1.1', '5.3.2', '5.3.3', '5.3.3.1', 
+    '5.4.0.5', '5.4.1', '5.4.1.1', '5.4.2', '5.4.2.1', '5.4.2.2'
+]
+
+versions = [
+    '5.5.0', '5.5.1', '5.5.2', '5.5.2.1', '5.6.0', '5.6.0.1', '5.6.0.2', 
+    '5.6.1', '5.6.1.1', '5.6.1.2_updater', '5.6.2_updater', '5.6.2.1_updater', 
+    '5.6.3_updater', '5.6.3.1_updater'
+]
 
 def banner():
-    banner="\n**********************************************************\n" 
-    banner+="*                      ~ C5scan ~                        *\n"
-    banner+="* A vulnerability and information gatherer for concrete5 *\n"
-    banner+="*                auraltension@riseup.net                 *\n"
-    banner+="**********************************************************\n" 
+    banner=(
+            "\n**********************************************************\n" 
+            "*                      ~ C5scan ~                        *\n"
+            "* A vulnerability and information gatherer for concrete5 *\n"
+            "*                auraltension@riseup.net                 *\n"
+            "**********************************************************\n" 
+    )
     print banner 
 
 def redtext(text):
@@ -23,7 +33,7 @@ def redtext(text):
 
 def format_url(url):
     if not re.search('^http', url):
-        print "No http:// or https:// provided. Assuming http://"
+        print "No http:// or https:// provided. Trying http://"
         url = 'http://' + url
     if not re.search('/$', url):
         url += '/'
