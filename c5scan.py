@@ -7,15 +7,11 @@ import argparse
 import re
 import sys
 
-oldversions = [
-    '5.0.0', '5.1.1', '5.2.1', '5.3.1.1', '5.3.2', '5.3.3', '5.3.3.1', 
-    '5.4.0.5', '5.4.1', '5.4.1.1', '5.4.2', '5.4.2.1', '5.4.2.2'
-]
-
 versions = [
+    '5.0.0', '5.1.1', '5.2.1', '5.3.1.1', '5.3.2', '5.3.3', '5.3.3.1', 
+    '5.4.0.5', '5.4.1', '5.4.1.1', '5.4.2', '5.4.2.1', '5.4.2.2',
     '5.5.0', '5.5.1', '5.5.2', '5.5.2.1', '5.6.0', '5.6.0.1', '5.6.0.2', 
-    '5.6.1', '5.6.1.1', '5.6.1.2_updater', '5.6.2_updater', '5.6.2.1_updater', 
-    '5.6.3_updater', '5.6.3.1_updater'
+    '5.6.1', '5.6.1.1', '5.6.1.2', '5.6.2', '5.6.2.1', '5.6.3', '5.6.3.1'
 ]
 
 def banner():
@@ -30,6 +26,9 @@ def banner():
 
 def redtext(text):
     print '\033[91m' + text + '\033[0m'
+
+def orangetext(text):
+    print '\033[33m' + text + '\033[0m'
 
 def format_url(url):
     if not re.search('^http', url):
@@ -70,9 +69,8 @@ def check_headers(url):
 
 def get_robots(url, return_codes):
     r = requests.get(url + '/robots.txt', verify=False)
-    if r.status_code == 200:
-        if return_codes:
-            print "[+] robots.txt found:\n ", r.content
+    if (r.status_code == 200) and return_codes:
+        print "[+] robots.txt found:\n ", r.content
 
 def get_version(url):
     try:
@@ -86,11 +84,9 @@ def get_version(url):
 def check_updates(url, versions, return_codes):
     print "Enumerating updates"
     for v in versions:
-        r = requests.get(url + '/updates/concrete' + v, verify=False)
-        if r.status_code == 200:
-            if return_codes:
-                print "[+] Update version %s exists" % v
-            elif r.content == '':
+        for extension in ['', '_updater']:
+            r = requests.get(url + '/updates/concrete' + v + extension, verify=False)
+            if r.status_code == 200 and (return_codes or (r.content == '')):
                 print "[+] Update version %s exists" % v
 
 def main():
