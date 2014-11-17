@@ -22,7 +22,7 @@ Example
 -------
 
 ```
-$ python c5scan.py -u localhost
+$ python c5scan.py -u localhost -r
 
 **********************************************************
 *                      ~ C5scan ~                        *
