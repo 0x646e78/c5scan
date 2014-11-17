@@ -4,7 +4,6 @@ from contextlib import closing
 from lxml import html
 import httplib2
 import requests # requires > = 1.2
-import gevent
 import argparse
 import re
 import sys
@@ -110,11 +109,12 @@ def check_headers(c):
             pass
 
 
-def get_robots(c, return_codes):
+def get_robots(c, return_codes, verbose):
     r = c.get('robots.txt')
     if (r.status_code == 200) and return_codes:
         print "[+] robots.txt found at ", c.url + 'robots.txt'
-        yellowtext(r.content)
+        if verbose:
+            yellowtext(r.content)
 
 def get_version(url):
     try:
@@ -156,6 +156,7 @@ def check_vulns(updates, known_vulns):
 def main():
     parser = argparse.ArgumentParser(description='A c5 scanner')
     parser.add_argument('-u','--url', help='The URL to test')
+    parser.add_argument('-r','--robots', action="store_true", help='Print the contents of robots.txt')
     args = parser.parse_args()
 
     if not args.url:
@@ -185,7 +186,7 @@ def main():
     check_headers(conn)
 
     # Check for robots.txt
-    get_robots(conn, return_codes)
+    get_robots(conn, return_codes, args.robots)
 
     # Enumerate update versions
     updates = check_updates(conn, versions, return_codes)

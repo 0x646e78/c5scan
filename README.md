@@ -10,6 +10,11 @@ Use
 python c5scan.py -u <url>
 ```
 
+Dependencies
+------------
+
+`pip install httplib2 requests`
+
 Example
 -------
 
