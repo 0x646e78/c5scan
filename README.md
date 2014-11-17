@@ -7,7 +7,10 @@ Use
 ---
 
 ```
-python c5scan.py -u <url>
+python c5scan.py -u <url> (-r)
+
+-u   --url      Insert your target URL here
+-r   --robots   If found, print contents of robots.txt
 ```
 
 Dependencies
