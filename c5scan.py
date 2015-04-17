@@ -12,13 +12,18 @@ versions = [
     '5.0.0', '5.1.1', '5.2.1', '5.3.1.1', '5.3.2', '5.3.3', '5.3.3.1', 
     '5.4.0.5', '5.4.1', '5.4.1.1', '5.4.2', '5.4.2.1', '5.4.2.2',
     '5.5.0', '5.5.1', '5.5.2', '5.5.2.1', '5.6.0', '5.6.0.1', '5.6.0.2', 
-    '5.6.1', '5.6.1.1', '5.6.1.2', '5.6.2', '5.6.2.1', '5.6.3', '5.6.3.1'
+    '5.6.1', '5.6.1.1', '5.6.1.2', '5.6.2', '5.6.2.1', '5.6.3', '5.6.3.1',
+    '5.6.3.2', '5.6.3.3', '5.7.0', '5.7.0.1', '5.7.0.3', '5.7.0.4',
+    '5.7.1', '5.7.2' 
 ]
 
 known_vulns = {
     '5.4.2.1': 'http://www.exploit-db.com/exploits/17925/',
     '5.6.1.2': 'http://www.exploit-db.com/exploits/26077/',
-    '5.6.2.1': 'http://www.exploit-db.com/exploits/31735/'
+    '5.6.2.1': 'http://www.exploit-db.com/exploits/31735/',
+    '5.7.0.4': 'https://hackerone.com/reports/30019',
+    '5.7.2': 'http://www.morxploit.com/morxploits/morxconxss.txt',
+    '5.7.2.1': 'http://www.morxploit.com/morxploits/morxconxss.txt'
 }
 
 readme_locations = [
@@ -127,6 +132,7 @@ def get_version(url):
 
 def check_updates(conn, versions, return_codes):
     print "\nEnumerating updates in /updates/"
+    #TODO: check that updates dir exists before enumeration attempts?
     updates = []
     for v in versions:
         for extension in ['', '_updater']:
