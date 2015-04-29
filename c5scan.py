@@ -18,12 +18,12 @@ versions = [
 ]
 
 known_vulns = {
-    '5.4.2.1': 'http://www.exploit-db.com/exploits/17925/',
-    '5.6.1.2': 'http://www.exploit-db.com/exploits/26077/',
-    '5.6.2.1': 'http://www.exploit-db.com/exploits/31735/',
-    '5.7.0.4': 'https://hackerone.com/reports/30019',
-    '5.7.2': 'http://www.morxploit.com/morxploits/morxconxss.txt',
-    '5.7.2.1': 'http://www.morxploit.com/morxploits/morxconxss.txt'
+    '5.4.2.1': {'title': 'Concrete5 <= 5.4.2.1 SQL Injection and XSS Vulnerabilities', 'url': 'http://www.exploit-db.com/exploits/17925/'},
+    '5.6.1.2': {'title': 'Multiple CSRF and Stored XSS Vulnerabilities', 'url': 'http://www.exploit-db.com/exploits/26077/'},
+    '5.6.2.1': {'title': 'SQL Injection in index.php cID param', 'url': 'http://www.exploit-db.com/exploits/31735/'},
+    '5.7.0.4': {'title': 'Stored XSS', 'url': 'https://hackerone.com/reports/30019'},
+    '5.7.2': {'title': 'Reflected XSS Vulnerabilities', 'url': 'http://www.morxploit.com/morxploits/morxconxss.txt'},
+    '5.7.2.1': {'title': 'Reflected XSS Vulnerabilities', 'url': 'http://www.morxploit.com/morxploits/morxconxss.txt'}
 }
 
 readme_locations = [
@@ -150,14 +150,13 @@ def check_readmes(c, readme_locations):
         if r.status_code == 200:
             print "[+] Found a readme at: ", c.url + i
 
-def check_vulns(updates, known_vulns):
-    print "\nChecking for known vulnerabilities"
-    for i in updates:
+def check_vulns(versions, known_vulns):
+    for i in versions:
         if i in known_vulns:
             orangetext(
-                '[+] A known vulnerability exists for %s:\n %s' % 
-                (i, known_vulns[i])
+                '[+] A known vulnerability exists for %s:' % i
             )
+            print known_vulns[i]['title'] + '\n' + known_vulns[i]['url'] + '\n'
 
 def main():
     parser = argparse.ArgumentParser(description='A c5 scanner')
@@ -201,10 +200,11 @@ def main():
     check_readmes(conn, readme_locations)
 
     # Check for known vulns
-    if version:
-        updates.append(version)
+    print "\nChecking for known vulnerabilities in updates"
     updates = list(set(updates))
     check_vulns(updates, known_vulns)
+    print "Checking for known vulnerabilities in current version"
+    check_vulns(version, known_vulns)
 
     if version:
         if version in known_vulns:
