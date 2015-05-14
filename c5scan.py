@@ -204,23 +204,15 @@ def main():
     print "\nChecking for known vulnerabilities in updates"
     updates = list(set(updates))
     check_vulns(updates, known_vulns)
-    print "Checking for known vulnerabilities in current version"
-    check_vulns(version, known_vulns)
-
     if version:
-        if version in known_vulns:
-            redtext('\n[!] Current version is vulnerable')
-        else:
-            print 'A public disclosure does not exist for the current version'
-
+        print "Checking for known vulnerabilities in current version"
+        check_vulns(version.split(), known_vulns)
 
 if __name__ == "__main__":
     try:
         main()
     except KeyboardInterrupt:
         print '\n User Exit'
-    except:
-        print "An error has occured. Exiting"
+    except Exception as e:
+        print "An error has occured. Exiting", e
         exit(1)
-
-
