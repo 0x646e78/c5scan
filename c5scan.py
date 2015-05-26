@@ -46,11 +46,12 @@ class Conn:
             h = httplib2.Http(disable_ssl_certificate_validation=True)
             self.headers = h.request(self.url, 'HEAD')
             assert int(self.headers[0]['status']) < 400
-            # Concrete5 appears to be installed
-            r = requests.get(self.url + 'concrete/', verify=self.verify)
+            r = requests.get(self.url + 'concrete/js', verify=self.verify)
             if r.status_code == 404:
-                redtext('The site is up but does not appear to be running concrete5')
-                exit(1)
+                r = requests.get(self.url, verify=self.verify)
+                if not 'concrete5' in r.text:
+                    redtext('The site is up but does not appear to be running concrete5')
+                    exit(1)
         except Exception as e:
             redtext("%s is not reachable" % self.url)
             exit(1)
@@ -181,7 +182,7 @@ def main():
     # Some versions didn't return status codes correctly
     return_codes = returns_404(conn)
     if not return_codes:
-        print "[+] Site is not correctly handling HTTP return codes\n"
+        print "[+] Site may not be correctly handling HTTP return codes\n"
 
     # Get version from meta tags
     version = get_version(url)
