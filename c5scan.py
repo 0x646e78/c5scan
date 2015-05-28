@@ -208,6 +208,10 @@ def main():
     if version:
         print "Checking for known vulnerabilities in current version"
         check_vulns(version.split(), known_vulns)
+    else:
+        print "Running version unkown. Unable to check known vulnerabilities against version number"
+
+    print "\nFinished."
 
 if __name__ == "__main__":
     try:
