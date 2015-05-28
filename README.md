@@ -74,6 +74,9 @@ SQL Injection in index.php cID param
 http://www.exploit-db.com/exploits/31735/
 
 Checking for known vulnerabilities in current version
+[+] A known vulnerability exists for 5.6.2.1:
+SQL Injection in index.php cID param
+http://www.exploit-db.com/exploits/31735/
 
 Finished.
 ```
