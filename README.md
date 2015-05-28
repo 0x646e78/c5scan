@@ -68,9 +68,12 @@ Looking for Readme files
 [+] Found a readme at:  http://localhost/concrete/libraries/3rdparty/StandardAnalyzer/Readme.txt
 [+] Found a readme at:  http://localhost/concrete/libraries/3rdparty/securimage/README.txt
 
-Checking for known vulnerabilities
+Checking for known vulnerabilities in updates
 [+] A known vulnerability exists for 5.6.2.1:
- http://www.exploit-db.com/exploits/31735/
+SQL Injection in index.php cID param
+http://www.exploit-db.com/exploits/31735/
 
-[!] Current version is vulnerable
+Checking for known vulnerabilities in current version
+
+Finished.
 ```
