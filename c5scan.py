@@ -8,13 +8,16 @@ import argparse
 import re
 import sys
 
+#https://www.concrete5.org/documentation/developers/5.7/background/version-history
+#http://www.concrete5.org/documentation/background/version_history/
 versions = [
     '5.0.0', '5.1.1', '5.2.1', '5.3.1.1', '5.3.2', '5.3.3', '5.3.3.1', 
     '5.4.0.5', '5.4.1', '5.4.1.1', '5.4.2', '5.4.2.1', '5.4.2.2',
     '5.5.0', '5.5.1', '5.5.2', '5.5.2.1', '5.6.0', '5.6.0.1', '5.6.0.2', 
     '5.6.1', '5.6.1.1', '5.6.1.2', '5.6.2', '5.6.2.1', '5.6.3', '5.6.3.1',
     '5.6.3.2', '5.6.3.3', '5.7.0', '5.7.0.1', '5.7.0.3', '5.7.0.4',
-    '5.7.1', '5.7.2', '5.7.2.1', '5.7.3', '5.7.3.1', '5.7.4', '5.7.4.1'
+    '5.7.1', '5.7.2', '5.7.2.1', '5.7.3', '5.7.3.1', '5.7.4', '5.7.4.1',
+    '5.7.4.2'
 ]
 
 known_vulns = {
@@ -24,7 +27,11 @@ known_vulns = {
     '5.7.0.4': {'title': 'Stored XSS', 'url': 'https://hackerone.com/reports/30019'},
     '5.7.2': {'title': 'Reflected XSS Vulnerabilities', 'url': 'http://www.morxploit.com/morxploits/morxconxss.txt'},
     '5.7.2.1': {'title': 'Reflected XSS Vulnerabilities', 'url': 'http://www.morxploit.com/morxploits/morxconxss.txt'},
-    '5.7.3.1': {'title': 'CVE-2015-2250 - Multiple XSS Vulnerabilities', 'url': 'http://seclists.org/fulldisclosure/2015/May/51'}
+    '5.7.3.1': {'title': 'CVE-2015-2250 - Multiple XSS Vulnerabilities', 'url': 'http://seclists.org/fulldisclosure/2015/May/51'},
+    '5.7.3.1': {'title': '(sendmail) Remote Code Execution Vulnerability', 'url': 'http://karmainsecurity.com/KIS-2015-01'},
+    '5.7.3.1': {'title': 'Multiple Reflected Cross-Site Scripting Vulnerabilities', 'url': 'http://karmainsecurity.com/KIS-2015-02'},
+    '5.7.3.1': {'title': '(Access.php) SQL Injection Vulnerability', 'url': 'http://karmainsecurity.com/KIS-2015-03'},
+    '5.7.4': {'title': '(Access.php) SQL Injection Vulnerability', 'url': 'http://karmainsecurity.com/KIS-2015-03'}
 }
 
 readme_locations = [
@@ -206,10 +213,10 @@ def main():
     updates = list(set(updates))
     check_vulns(updates, known_vulns)
     if version:
-        print "Checking for known vulnerabilities in current version"
+        print "\nChecking for known vulnerabilities in current version"
         check_vulns(version.split(), known_vulns)
     else:
-        print "Running version unkown. Unable to check known vulnerabilities against version number"
+        print "\nRunning version unkown. Unable to check known vulnerabilities against version number"
 
     print "\nFinished."
 
