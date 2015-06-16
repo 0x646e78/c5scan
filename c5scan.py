@@ -47,6 +47,7 @@ class Conn:
     def __init__(self, url):
         self.url = url
         self.verify = False
+        requests.packages.urllib3.disable_warnings()
 
         try:
             # Server is responsive
