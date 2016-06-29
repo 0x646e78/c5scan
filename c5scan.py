@@ -21,6 +21,7 @@ versions = [
 ]
 
 known_vulns = {
+#    'v': {'title': '', 'url': ''},
     '5.4.2.1': {'title': 'Concrete5 <= 5.4.2.1 SQL Injection and XSS Vulnerabilities', 'url': 'http://www.exploit-db.com/exploits/17925/'},
     '5.6.1.2': {'title': 'Multiple CSRF and Stored XSS Vulnerabilities', 'url': 'http://www.exploit-db.com/exploits/26077/'},
     '5.6.2.1': {'title': 'SQL Injection in index.php cID param', 'url': 'http://www.exploit-db.com/exploits/31735/'},
@@ -30,6 +31,9 @@ known_vulns = {
     '5.7.3.1': {'title': 'CVE-2015-2250 - Multiple XSS Vulnerabilities', 'url': 'http://seclists.org/fulldisclosure/2015/May/51'},
     '5.7.3.1': {'title': '(sendmail) Remote Code Execution Vulnerability', 'url': 'http://karmainsecurity.com/KIS-2015-01'},
     '5.7.3.1': {'title': 'Multiple Reflected Cross-Site Scripting Vulnerabilities', 'url': 'http://karmainsecurity.com/KIS-2015-02'},
+    '5.7.3.1': {'title': 'Multiple Cross-Site Request Forgeries Vulnerabilities', 'url': 'http://karmainsecurity.com/KIS-2016-08'},
+    '5.7.3.1': {'title': 'Multiple Stored Cross-Site Scripting Vulnerabilities', 'url': 'http://karmainsecurity.com/KIS-2016-09'},
+    '5.7.3.1': {'title': '(Application::dispatch) Local File Inclusion Vulnerability', 'url': 'http://karmainsecurity.com/KIS-2016-10'},
     '5.7.3.1': {'title': '(Access.php) SQL Injection Vulnerability', 'url': 'http://karmainsecurity.com/KIS-2015-03'},
     '5.7.4': {'title': '(Access.php) SQL Injection Vulnerability', 'url': 'http://karmainsecurity.com/KIS-2015-03'}
 }
