@@ -1,7 +1,7 @@
 c5scan
 ======
 
-Vulnerability scanner and information gatherer for the Concrete5 CMS
+Vulnerability scanner and information gatherer for the Concrete5 CMS. Is a little out of date presently pending a refactor.
 
 Use
 ---
