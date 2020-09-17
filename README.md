@@ -1,4 +1,4 @@
-c5scan
+c5scan (unmaintained)
 ======
 
 Vulnerability scanner and information gatherer for the Concrete5 CMS. Is a little out of date presently pending a refactor.
